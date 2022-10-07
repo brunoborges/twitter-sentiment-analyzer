@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "azure.cognitive.service.location",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.cognitive.service.location'"
+  },
+  {
+    "name": "azure.cognitive.service.key",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.cognitive.service.key'"
+  },
+  {
+    "name": "azure.cognitive.service.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.cognitive.service.endpoint'"
+  },
+  {
+    "name": "azure.cognitive.service.path",
+    "type": "java.lang.String",
+    "description": "A description for 'azure.cognitive.service.path'"
+  },
+  {
+    "name": "websocket.port",
+    "type": "java.lang.String",
+    "description": "A description for 'websocket.port'"
+  }
+]}
