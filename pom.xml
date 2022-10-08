@@ -12,9 +12,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>twitter-sentiment</name>
 	<description>Twitter Sentiment Analyzer</description>
+
 	<properties>
 		<java.version>17</java.version>
+		<camel.version>3.19.0</camel.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -23,32 +26,32 @@
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-twitter-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-http-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-jackson-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-spring-redis-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-websocket-starter</artifactId>
-			<version>3.19.0</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.azure</groupId>
