@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.processor.aggregate.AbstractListAggregationStrategy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +29,20 @@ public class TweetSentimentAnalyzer {
     }
 
     public void analyze(Exchange e) {
-        var body = e.getIn().getBody();
+        var body = e.getMessage().getBody();
 
         final List<Tweet> tweets;
-        if (body instanceof Exchange ex) {
-            tweets = Collections.singletonList(ex.getIn().getBody(Tweet.class));
-        } else if (body instanceof List<Exchange> lex) {
-            tweets = lex.stream().map(ex -> ex.getIn().getBody(Tweet.class))
+        var aggregationSize = e.getProperty("CamelAggregatedSize");
+        if (aggregationSize instanceof Integer ias) {
+            tweets = ((List<Exchange>) body).stream().map(ex -> ex.getIn().getBody(Tweet.class))
                     .collect(Collectors.toList());
-        } else { tweets = Collections.emptyList(); }
-
+        } else if (body instanceof Exchange ex) {
+            tweets = Collections.singletonList(ex.getIn().getBody(Tweet.class));
+        } else if (body instanceof Tweet t) {
+            tweets = Collections.singletonList(t);
+        } else {
+            tweets = Collections.emptyList();
+        }
 
         var analyzed = new ArrayList<Tweet>(tweets.size());
         var documents = tweets.stream().map(t -> t.text()).collect(Collectors.toList());
