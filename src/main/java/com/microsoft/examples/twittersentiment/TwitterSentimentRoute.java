@@ -32,8 +32,7 @@ public class TwitterSentimentRoute extends RouteBuilder {
                 .to("bean:tweetNormalizer?method=statusToTweet")
                 .aggregate(new GroupedExchangeAggregationStrategy()).constant(true)
                 .completionTimeout(5000) // group tweets every 5 seconds (reduce load on Azure Cog Service API)
-                .to("bean:twitterSentimentAnalyzer?method=analyze") // send to Azure Cognitive Services for sentiment
-                                                                    // analysis
+                .to("bean:twitterSentimentAnalyzer?method=analyze") // send to Cognitive Services for sentiment analysis
                 .split(body())
                 .recipientList(constant("seda:storeOnRedis,seda:pubToWebSockets"));
 
