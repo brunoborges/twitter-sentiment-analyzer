@@ -31,12 +31,13 @@ public class TweetSentimentAnalyzer {
         var body = e.getIn().getBody();
 
         final List<Tweet> tweets;
-        if (body instanceof Exchange) {
-            tweets = Collections.singletonList(((Exchange) body).getIn().getBody(Tweet.class));
-        } else {
-            tweets = ((List<Exchange>) body).stream().map(ex -> ex.getIn().getBody(Tweet.class))
+        if (body instanceof Exchange ex) {
+            tweets = Collections.singletonList(ex.getIn().getBody(Tweet.class));
+        } else if (body instanceof List<Exchange> lex) {
+            tweets = lex.stream().map(ex -> ex.getIn().getBody(Tweet.class))
                     .collect(Collectors.toList());
-        }
+        } else { tweets = Collections.emptyList(); }
+
 
         var analyzed = new ArrayList<Tweet>(tweets.size());
         var documents = tweets.stream().map(t -> t.text()).collect(Collectors.toList());
