@@ -17,7 +17,6 @@ window.onload = function () {
     }
 
     if (log) {
-
         sock = new WebSocket(wsURL);
 
         var connDiv = document.getElementById("connection-status");
@@ -62,7 +61,18 @@ window.onload = function () {
             item.innerHTML = tmsg
             appendLog(item);
         };
-
     }
 
+    searchBox = document.getElementById("search-keyword");
+    searchBox.addEventListener("keyup", function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            console.log("searching for " + searchBox.value);
+            jsonData = {
+                "command": "search",
+                "searchTerms": searchBox.value
+            };
+            sock.send(JSON.stringify(jsonData));
+        }
+    });
 };

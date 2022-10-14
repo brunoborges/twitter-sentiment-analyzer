@@ -1,9 +1,11 @@
-package com.microsoft.examples.twittersentiment;
+package com.microsoft.examples.twittersentiment.beans;
 
 import java.beans.JavaBean;
 
 import org.apache.camel.Exchange;
 import org.springframework.stereotype.Component;
+
+import com.microsoft.examples.twittersentiment.model.Tweet;
 
 @Component("tweetNormalizer")
 public class TweetNormalizer {

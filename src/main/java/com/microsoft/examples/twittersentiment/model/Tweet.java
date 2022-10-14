@@ -1,4 +1,4 @@
-package com.microsoft.examples.twittersentiment;
+package com.microsoft.examples.twittersentiment.model;
 
 public record Tweet(
                 String text,
