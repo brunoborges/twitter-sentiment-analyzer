@@ -8,7 +8,19 @@ https://github.com/dapr/samples/tree/master/twitter-sentiment-processor/demos/ja
 
 To run this demo, create a file `application-production.properties`, fill in the required keys from Twitter API, Azure Cognitive Services API.
 
+### Run Redis locally
 You also need a running Redis database locally.
+
+```bash
+docker run -d -p 6379:6379 --name myredis --network redisnet redis
+```
+
+To access the Redis through the CLI, run:
+```bash
+docker run -it --network redisnet --rm redis redis-cli -h myredis
+```
+
+## Run the demo
 
 Finally, run with this command:
 
