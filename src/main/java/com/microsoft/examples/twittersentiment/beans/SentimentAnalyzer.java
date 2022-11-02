@@ -33,7 +33,7 @@ public class SentimentAnalyzer {
         @SuppressWarnings("unchecked")
         final List<Tweet> tweets = e.getMessage().getBody(List.class);
 
-        if (tweets.isEmpty()) {
+        if (tweets == null || tweets.isEmpty()) {
             return;
         }
 
