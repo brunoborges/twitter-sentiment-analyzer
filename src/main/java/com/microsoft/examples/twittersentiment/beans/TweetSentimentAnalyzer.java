@@ -15,12 +15,12 @@ import com.microsoft.examples.twittersentiment.model.Sentiment;
 import com.microsoft.examples.twittersentiment.model.Tweet;
 import com.microsoft.examples.twittersentiment.routes.TwitterSentimentRoute;
 
-@Component("twitterSentimentAnalyzer")
-public class SentimentAnalyzer {
+@Component("tweetSentimentAnalyzer")
+public class TweetSentimentAnalyzer {
 
     private TextAnalyticsClient textAnalyticsClient;
 
-    public SentimentAnalyzer(
+    public TweetSentimentAnalyzer(
             @Value("${azure.cognitive.service.endpoint}") String cogServiceEndpoint,
             @Value("${azure.cognitive.service.key}") String cogServiceKey) {
         textAnalyticsClient = new TextAnalyticsClientBuilder()

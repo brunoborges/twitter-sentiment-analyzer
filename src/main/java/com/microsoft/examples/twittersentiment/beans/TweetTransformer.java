@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 import com.microsoft.examples.twittersentiment.model.Tweet;
 
-@Component("tweetNormalizer")
-public class TweetNormalizer {
+@Component("tweetTransformer")
+public class TweetTransformer {
 
     public void statusToTweet(Exchange exchange) {
         var status = exchange.getIn().getBody(twitter4j.Status.class);

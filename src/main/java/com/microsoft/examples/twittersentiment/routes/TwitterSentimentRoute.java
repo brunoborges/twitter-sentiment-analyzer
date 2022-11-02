@@ -29,37 +29,36 @@ public class TwitterSentimentRoute extends RouteBuilder {
                 getContext().getGlobalOptions().put("CamelJacksonTypeConverterToPojo", "true");
                 getContext().getGlobalOptions().put("CamelJacksonEnableTypeConverter", "true");
 
+                // Main route to consume from Twitter
                 from("twitter-timeline:HOME?type=polling&delay=60000&initialDelay=5000")
-                        .log("Received a tweet from ${body.user.screenName}")
-                        .filter(simple("${body.isRetweet} == false"))
-                        .filter(simple("${body.lang} == '%s'".formatted(LANG)))
-                        .to("bean:tweetNormalizer?method=statusToTweet")
+                        .filter(simple("${body.isRetweet} == false")) // filter out retweets
+                        .filter(simple("${body.lang} == '%s'".formatted(LANG))) // only english
+                        .to("bean:tweetTransformer") // Convert from Tweet4J.Status to Tweet
                         .aggregate(new GroupedBodyAggregationStrategy())
                                 .constant(true)
                                 .completionSize(10) // no more than 10 tweets per batch
                                 .completionTimeout(5000) // group tweets every 5 seconds (reduce load on ACS)
-                        .to("bean:twitterSentimentAnalyzer?method=analyze") // send to ACS for analysis
+                        .to("bean:tweetSentimentAnalyzer") // send to ACS for analysis
                         .split(body())
                         .to("seda:sendToRedis")
                         .routeId("mainRoute");
 
-                // Store and Publish through Redis
+                // Store on Redis, and Publish to Subscribers through Redis
                 from("seda:sendToRedis")
                         .setHeader(RedisConstants.COMMAND, constant("SET"))
                         .setHeader(RedisConstants.KEY, simple("${body.tweetId}").convertToString())
                         .marshal().json(JsonLibrary.Jackson, true)
                         .convertBodyTo(String.class)
                         .setHeader(RedisConstants.VALUE, simple("${body}"))
-                        .log("Stored on Redis: ${body}")
                         .to("spring-redis:?serializer=#redisSerializer")
                         .setHeader(RedisConstants.COMMAND, constant("PUBLISH"))
                         .setHeader(RedisConstants.CHANNEL, constant("tweets"))
                         .setHeader(RedisConstants.MESSAGE, simple("${body}"))
-                        .log("PUBLISH'ed to Redis channel: ${body}")
                         .to("spring-redis:?serializer=#redisSerializer");
 
+                // Default route to serve the Web UI
+                // This route didn't have to exist, if all we wanted was to publish to WebSocket
                 from("spring-redis:?command=SUBSCRIBE&channels=tweets&serializer=#redisSerializer")
-                        .log("Received from Redis: ${body}")
                         .to("websocket://0.0.0.0:%s/tweets?sendToAll=true".formatted(websocketPort));
 
                 // It won't start consuming the Twitter Search until the route is started
