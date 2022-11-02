@@ -1,7 +1,6 @@
 package com.microsoft.examples.twittersentiment.beans;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,20 +30,8 @@ public class SentimentAnalyzer {
     }
 
     public void analyze(Exchange e) {
-        var body = e.getMessage().getBody();
-
-        final List<Tweet> tweets;
-        var aggregationSize = e.getProperty("CamelAggregatedSize");
-        if (aggregationSize instanceof Integer ias) {
-            tweets = ((List<Exchange>) body).stream().map(ex -> ex.getIn().getBody(Tweet.class))
-                    .collect(Collectors.toList());
-        } else if (body instanceof Exchange ex) {
-            tweets = Collections.singletonList(ex.getIn().getBody(Tweet.class));
-        } else if (body instanceof Tweet t) {
-            tweets = Collections.singletonList(t);
-        } else {
-            tweets = Collections.emptyList();
-        }
+        @SuppressWarnings("unchecked")
+        final List<Tweet> tweets = e.getMessage().getBody(List.class);
 
         if (tweets.isEmpty()) {
             return;
