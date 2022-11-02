@@ -1,9 +1,7 @@
 package com.microsoft.examples.twittersentiment.routes;
 
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.redis.RedisConstants;
-import org.apache.camel.component.twitter.TwitterConstants;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,7 +74,6 @@ public class TwitterSentimentRoute extends RouteBuilder {
                                 .when()
                                         .jsonpath("$.[?(@.command == 'search')]")
                                         .unmarshal().json(JsonLibrary.Jackson, SearchCommand.class)
-                                        .setHeader(TwitterConstants.TWITTER_KEYWORDS, simple("${body.searchTerms}"))
                                         .to("bean:twitterSentimentRoute?method=startProcessing")
                                 .when()
                                         .jsonpath("$.[?(@.command == 'stop')]")
@@ -89,8 +86,8 @@ public class TwitterSentimentRoute extends RouteBuilder {
                 getCamelContext().getRouteController().stopRoute("tweetRoute");
         }
 
-        public void startProcessing(Exchange exchange) throws Exception {
-                final var keyword = exchange.getIn().getHeader(TwitterConstants.TWITTER_KEYWORDS, String.class);
+        public void startProcessing(SearchCommand command) throws Exception {
+                final var keyword = command.searchTerms();
                 getCamelContext().addRoutes(new RouteBuilder() {
                         @Override
                         public void configure() throws Exception {

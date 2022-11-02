@@ -43,11 +43,6 @@
 			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.microsoft.playwright</groupId>
-			<artifactId>playwright</artifactId>
-			<version>1.27.1</version>
-		  </dependency>
-		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-jackson-starter</artifactId>
 			<version>${camel.version}</version>
@@ -61,7 +56,7 @@
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-twitter-starter</artifactId>
 			<version>${camel.version}</version>
-		  </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-websocket-starter</artifactId>
