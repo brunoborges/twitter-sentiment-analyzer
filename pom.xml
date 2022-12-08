@@ -58,14 +58,14 @@
 			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.camel.springboot</groupId>
-			<artifactId>camel-websocket-starter</artifactId>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-azure-cognitive-textanalytics</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-ai-textanalytics</artifactId>
-			<version>5.2.1</version>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-websocket-starter</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.springboot</groupId>
